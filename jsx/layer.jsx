@@ -8,6 +8,14 @@ function for_each(arr, callback){
 	}
 }
 
+function getDocumentByLayer(lyr){
+	var current = lyr;
+	do{
+		current = current.parent;
+	}while(current.typename != "Document");
+	return current;
+}
+
 //实现用图层名层次序列查找图层引用，并分别在每一层执行callback函数
 //如果未找到则返回null
 function getLayerByNameSeries(doc, name_series, callback){
@@ -85,8 +93,15 @@ function addLayerByNameSeries(doc, name_series, template_layer){
 	}
 	if(template_layer){
 		//如果有模板图层，复制这个图层替换之前创建的空图层
+		srcDoc = getDocumentByLayer(template_layer);
+		differentDocs = false;
+		if(srcDoc != app.activeDocument){
+			app.activeDocument = srcDoc;
+			differentDocs = true;
+		};
 		new_layer = template_layer.duplicate(current_layer, ElementPlacement.PLACEBEFORE);
 		new_layer.move(current_layer, ElementPlacement.PLACEBEFORE);
+		if(differentDocs){app.activeDocument = doc;}
 		new_layer.name = current_layer.name;
 		current_layer.remove();
 		current_layer = new_layer;
@@ -128,8 +143,10 @@ function eachLayer(doc_or_set, callback){
 
 //在不同psd文件之间更新相同层次的图层
 function updateLayerByNameSeries(name_series, srcFile, dstFile){
-	var srcLayer = getLayerToEdit(srcFile, name_series);
-	var dstLayer = getLayerToEdit(dstFile, name_series);
+	app.activeDocument = srcFile;
+	var srcLayer = editLayer(srcFile, name_series);
+	app.activeDocument = dstFile;
+	var dstLayer = editLayer(dstFile, name_series);
 	if(!srcLayer){throw "未找到有效的源图层";}
-	
+	addLayerByNameSeries(dstFile, name_series, srcLayer);
 }

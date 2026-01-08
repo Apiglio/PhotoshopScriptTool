@@ -1,11 +1,16 @@
 
 #include "layer.jsx"
 
-var doc = app.documents.getByName("test2.psd");
+//var doc = app.documents.getByName("test2.psd");
 //var lyr = editLayer(doc, ["图例","基础现状图例"]);
-var lyr = editLayer(doc, ["道路要素","现状道路","现状道路红线"]);
+//var lyr = editLayer(doc, ["道路要素","现状道路","现状道路红线"]);
 //lockLayer(doc, ["道路要素","现状道路","现状道路红线"]);
-addLayerByNameSeries(doc, ["道路要素","现状道路2","现状道路红线2"], lyr)
+//addLayerByNameSeries(doc, ["道路要素","现状道路2","现状道路红线2"], lyr)
+
+var doc_1 = app.documents.getByName("test1.psd");
+var doc_2 = app.documents.getByName("test2.psd");
+var nsr = ["auto:图框", "auto:图名", 0];
+updateLayerByNameSeries(nsr, doc_2, doc_1);
 
 // arr=[]
 // eachLayer(doc, function(x){
