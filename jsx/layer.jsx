@@ -150,3 +150,9 @@ function updateLayerByNameSeries(name_series, srcFile, dstFile){
 	if(!srcLayer){throw "未找到有效的源图层";}
 	addLayerByNameSeries(dstFile, name_series, srcLayer);
 }
+
+function refreshSmartLink(doc){
+	app.activeDocument = doc;
+	var idplacedLayerUpdateAllModified = stringIDToTypeID("placedLayerUpdateAllModified");
+	executeAction(idplacedLayerUpdateAllModified);
+}

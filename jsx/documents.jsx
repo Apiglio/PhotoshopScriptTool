@@ -7,13 +7,20 @@
 //lockLayer(doc, ["道路要素","现状道路","现状道路红线"]);
 //addLayerByNameSeries(doc, ["道路要素","现状道路2","现状道路红线2"], lyr)
 
-var doc_1 = app.documents.getByName("test1.psd");
-var doc_2 = app.documents.getByName("test2.psd");
-var nsr = ["auto:图框", "auto:图名", 0];
-updateLayerByNameSeries(nsr, doc_2, doc_1);
+// var doc_1 = app.documents.getByName("test1.psd");
+// var doc_2 = app.documents.getByName("test2.psd");
+// var nsr = ["auto:图框", "auto:图名", 0];
+// updateLayerByNameSeries(nsr, doc_2, doc_1);
 
 // arr=[]
 // eachLayer(doc, function(x){
 	// if(x.kind==LayerKind.SMARTOBJECT){arr.push(x.linkedLayers.length)};
 // });
 //alert(nameSeriesByLayer(lyr))
+
+//var doc = app.documents.getByName("AAAA.psd");
+refreshSmartLink(app.activeDocument);
+// var actionSet = app.actions.getByName("Test");
+// alert(actionSet)
+// var action = actionSet.actions.getByName("Test1");
+// alert(action)
