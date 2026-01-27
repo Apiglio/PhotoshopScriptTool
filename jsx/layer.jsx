@@ -119,6 +119,11 @@ function lockLayer(doc, name_series){
 	return getLayerByNameSeries(doc, name_series, function(x){x.allLocked=true})
 }
 
+function deleteLayer(doc, name_series){
+	lyr = getLayerByNameSeries(doc, name_series, function(x){x.allLocked=true})
+	lyr.remove()
+}
+
 function nameSeriesByLayer(lyr){
 	var current_layer = lyr;
 	var result = []

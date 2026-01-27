@@ -22,8 +22,8 @@ if (inputFolder != null) {
 				});
 				lu_1 = editLayer(cdoc, ["用地【链接】","现状用地"]);
 				lu_1.visible = false;
-				lu_1.allLocked = true;
-				lockLayer(cdoc, ["用地【链接】","现状用地"]);
+				//lu_1.allLocked = true;
+				//lockLayer(cdoc, ["用地【链接】","现状用地"]);
 				
 				updateTitleByFullName(cdoc);
 				refreshSmartLink(cdoc);
