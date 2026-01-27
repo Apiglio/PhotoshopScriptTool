@@ -4,6 +4,10 @@
 var search_key = /土地利用规划图/;
 var export_pics = true;
 
+hidding_layers = [["用地【链接】","现状用地"]];
+showing_layers = [["用地【链接】","规划用地"]];
+removal_layers = [["图例","基础现状图例"]];
+
 var inputFolder = Folder.selectDialog("请选择包含PSD文件的文件夹");
 if (inputFolder != null) {
 	var allPSDFiles = getAllPSDFiles(inputFolder);
@@ -15,16 +19,31 @@ if (inputFolder != null) {
 				filename = decodeURIComponent(allPSDFiles[i].name);
 				if (!search_key.test(filename)) {continue;}
 				cdoc = app.open(new File(allPSDFiles[i]));
-				//修改图层显隐
-				lu_0 = getLayerByNameSeries(cdoc, ["用地【链接】","规划用地"],function(x){
-					x.allLocked = false;
-					x.visible = true;
-				});
-				lu_1 = editLayer(cdoc, ["用地【链接】","现状用地"]);
-				lu_1.visible = false;
-				//lu_1.allLocked = true;
-				//lockLayer(cdoc, ["用地【链接】","现状用地"]);
-				
+				//隐藏
+				for(i in hidding_layers) {
+					ns = hidding_layers[i];
+					getLayerByNameSeries(cdoc, ns, function(x){
+						x.allLocked = false;
+						x.visible = false;
+					})
+				}
+				//显示
+				for(i in showing_layers) {
+					ns = showing_layers[i];
+					getLayerByNameSeries(cdoc, ns, function(x){
+						x.allLocked = false;
+						x.visible = true;
+					})
+				}
+				//移除
+				for(i in removal_layers) {
+					ns = removal_layers[i];
+					lyr = getLayerByNameSeries(cdoc, ns, function(x){
+						x.allLocked = false;
+					});
+					if (lyr) {lyr.remove() };
+				}
+				//刷新题名和链接
 				updateTitleByFullName(cdoc);
 				refreshSmartLink(cdoc);
 				if(export_pics){ExportToJPEG(cdoc);}
