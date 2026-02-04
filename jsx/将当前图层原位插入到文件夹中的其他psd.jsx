@@ -1,14 +1,16 @@
 #include "iter.jsx"
 #include "layer.jsx"
 
-var search_key = /土地利用规划图/;
-var exclude_key = /宦溪/
+var search_key = /总图/;
+var exclude_key = /AAA/
 var export_pics = true;
 
 var key_document = app.activeDocument;
 var key_layer = key_document.activeLayer;
 var key_document_fullName = decodeURIComponent(key_document.fullName.fsName);
 var key_name_series = nameSeriesByLayer(key_layer);
+var target_name_series = prompt("插入到其他psd的哪个图层之前（层级以逗号隔开）：",key_name_series).split(",");
+
 
 var inputFolder = Folder.selectDialog("请选择包含PSD文件的文件夹");
 psd_files = [];
@@ -40,7 +42,7 @@ if(if_process) {
 		app.displayDialogs = DialogModes.NO;
 		for (i in psd_files) {
 			target_document = app.open(new File(psd_files[i]));
-			updateLayerByNameSeries(key_name_series, key_document, target_document);
+			insertLayerByNameSeries(key_name_series, key_document, target_name_series, target_document, ElementPlacement.PLACEBEFORE);
 			refreshSmartLink(target_document);
 			if(export_pics){ExportToJPEG(target_document);}
 			target_document.save();
