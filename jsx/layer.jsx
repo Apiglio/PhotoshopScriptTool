@@ -150,10 +150,24 @@ function eachLayer(doc_or_set, callback){
 function updateLayerByNameSeries(name_series, srcFile, dstFile){
 	app.activeDocument = srcFile;
 	var srcLayer = editLayer(srcFile, name_series);
+	if(!srcLayer){throw "未找到有效的源图层";}
 	app.activeDocument = dstFile;
 	var dstLayer = editLayer(dstFile, name_series);
-	if(!srcLayer){throw "未找到有效的源图层";}
 	addLayerByNameSeries(dstFile, name_series, srcLayer);
+}
+
+//在不同psd文件之间插入相同层次的图层
+//elementPlacement : with ElementPlacement do
+//  (INSIDE, PLACEATBEGINNING, PLACEATEND, PLACEBEFORE, PLACEAFTER)
+function insertLayerByNameSeries(name_series, srcFile, target_series, dstFile, elementPlacement){
+	app.activeDocument = srcFile;
+	var srcLayer = editLayer(srcFile, name_series);
+	if(!srcLayer){throw "未找到有效的源图层";}
+	app.activeDocument = dstFile;
+	var targetLayer = editLayer(dstFile, target_series);
+	if(!targetLayer){throw "未找到有效的目标图层";}
+	dstLayer = addLayerByNameSeries(dstFile, name_series, srcLayer);
+	dstLayer.move(targetLayer, elementPlacement)
 }
 
 function refreshSmartLink(doc){
